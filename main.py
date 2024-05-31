@@ -1,6 +1,8 @@
 import discord
 import random
 import time 
+import os
+
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -18,4 +20,4 @@ class MyClient(discord.Client):
             #await message.components[0].children[0].click()
 
 client = MyClient()
-client.run(token)
+client.run(os.environ['TOKEN'])
