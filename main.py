@@ -2,21 +2,24 @@ import discord
 import random
 import time 
 import os
-from flask import Flask
-from threading import Thread
 
-app = Flask('')
 
-@app.route('/')
-def home():
-    return "I'm alive"
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-def run():
-  app.run(host='0.0.0.0',port=8080)
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain')
+        self.end_headers()
+        self.wfile.write("I'm alive".encode())
 
-def keep_alive():  
-    t = Thread(target=run)
-    t.start()
+def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8080):
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    print(f"Server running on port {port}")
+    httpd.serve_forever()
+
+
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -35,4 +38,4 @@ class MyClient(discord.Client):
 
 client = MyClient()
 client.run(os.environ['TOKEN'])
-keep_alive()
+run()
