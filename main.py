@@ -3,7 +3,7 @@ import random
 import time 
 import os
 
-
+port = os.environ['PORT']
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -13,7 +13,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write("I'm alive".encode())
 
-def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8080):
+def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=port):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print(f"Server running on port {port}")
