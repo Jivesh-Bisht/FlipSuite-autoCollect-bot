@@ -29,7 +29,7 @@ class MyClient(discord.Client):
     # Check if the message is from the specified server and user
         if (message.guild and message.guild.id in [1236380949663711313]) and (message.author.id == 1150448986264698980):
             print(f'Message received user {message.author.name}: {message.content}')
-            for i in range(5):
+            for i in range(1):
                 print(type(message.components[0].children[i]))
                 if message.components[0].children[i].label == "Enter":
                     time.sleep(random.randint(5,10))
