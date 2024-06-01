@@ -12,21 +12,6 @@ def hello_world():
 
 
 port = os.environ['PORT']
-from http.server import BaseHTTPRequestHandler, HTTPServer
-
-class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-        self.wfile.write("I'm alive".encode())
-
-def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=port):
-    server_address = ('', port)
-    httpd = server_class(server_address, handler_class)
-    print(f"Server running on port {port}")
-    httpd.serve_forever()
-
 
 
 class MyClient(discord.Client):
@@ -45,7 +30,6 @@ class MyClient(discord.Client):
                         await message.components[0].children[i].click()
             #await message.components[0].children[0].click()
 
+app.run(host='0.0.0.0', port=port)
 client = MyClient()
 client.run(os.environ['TOKEN'])
-port = int(os.environ.get('PORT', 5000))
-app.run(host='0.0.0.0', port=port)
