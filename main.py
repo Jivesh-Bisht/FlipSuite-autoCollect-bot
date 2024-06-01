@@ -2,6 +2,14 @@ import discord
 import random
 import time 
 import os
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
 
 port = os.environ['PORT']
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -38,4 +46,5 @@ class MyClient(discord.Client):
 
 client = MyClient()
 client.run(os.environ['TOKEN'])
-run()
+port = int(os.environ.get('PORT', 5000))
+app.run(host='0.0.0.0', port=port)
