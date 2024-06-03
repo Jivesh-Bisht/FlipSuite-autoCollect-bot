@@ -3,6 +3,7 @@ import random
 import time 
 import os
 from flask import Flask
+import threading
 
 app = Flask(__name__)
 
@@ -28,7 +29,19 @@ class MyClient(discord.Client):
                     time.sleep(random.randint(5,10))
                     await message.components[0].children[i].click()
             #await message.components[0].children[0].click()
+def run_server():
+    app.run(host='0.0.0.0', port=port)
+def run_bot():
+    client = MyClient()
+    client.run(os.environ['TOKEN'])
+    
 
-app.run(host='0.0.0.0', port=port)
-client = MyClient()
-client.run(os.environ['TOKEN'])
+if __name__ == "__main__":
+    flask_thread = threading.Thread(target=run_server)
+    discord_thread = threading.Thread(target=run_bot)
+    
+    flask_thread.start()
+    discord_thread.start()
+    
+    flask_thread.join()
+    discord_thread.join()
